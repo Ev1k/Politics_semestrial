@@ -24,7 +24,7 @@
   </div>
   <div class="col-1"></div>
   <div class="col-2">
-    <form action="login">
+    <form action="login" method="post">
 
       <label class="form-label">Username</label>
       <input type="text" class="form-control" name="username" required>

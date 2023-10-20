@@ -1,4 +1,4 @@
-package com.derezhenko.net.server;
+package com.derezhenko.server;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

@@ -1,3 +1,4 @@
+<%@ page import="java.util.Objects" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -19,17 +20,19 @@
 <div class="row">
   <div class="col-3"></div>
   <div class="col-3">
-    <img alt="" class="img-thumbnail" src="https://i0.wp.com/vzv.su/polezno-znat/wp-content/uploads/2015/09/borba-s-konkurentami-voyna.jpg">
+<%--    <img alt="" class="img-thumbnail" src="https://i0.wp.com/vzv.su/polezno-znat/wp-content/uploads/2015/09/borba-s-konkurentami-voyna.jpg">--%>
+<%--    <img alt="" class="img-thumbnail" src="C:/Users/Эвелина/AppData/Local/JetBrains/IntelliJIdea2022.2/tomcat/5077d436-afab-4425-8a77-007cfa00fd72/work/Catalina/localhost/ROOT<%=imgName%>">--%>
+    <img alt="" class="img-thumbnail" src="${pageContext.request.contextPath}/images/<%=session.getValue("image-user").toString()%>">
   </div>
   <div class="col-15"></div>
   <div class="col-3"></div>
   <div class="col-3">
     <div class="mb-3">
-      <form enctype="multipart/form-data" method="post">
-        <label for="formFile" class="form-label"></label>
-        <input class="form-control" type="file" id="formFile">
+      <form enctype="multipart/form-data" method="post" action="/account">
+        <p><input class="form-control" type="file" id="formFile" name="photo" multiple accept="image/*,image/jpeg">
         <br>
-        <center><p><input type="submit" class="btn-outline-success rounded" value="Отправить"></p></center>
+        <center><input type="submit" class="btn-outline-success rounded" value="Отправить"></center>
+      </p>
       </form>
     </div>
   </div>

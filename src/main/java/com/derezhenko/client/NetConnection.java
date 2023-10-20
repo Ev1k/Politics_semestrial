@@ -1,4 +1,4 @@
-package com.derezhenko.net.client;
+package com.derezhenko.client;
 
 import java.io.BufferedReader;
 import java.io.IOException;

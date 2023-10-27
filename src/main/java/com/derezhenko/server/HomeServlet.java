@@ -17,14 +17,23 @@ import java.util.List;
 public class HomeServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        System.out.println(req.getParameter("userId"));
+        String href = "/home";
         HttpSession session = LoginServlet.getSession();
-        int userId = Integer.parseInt((String) session.getAttribute("userId"));
+        if(session != null) {
+            int userId = Integer.parseInt((String) session.getAttribute("userId"));
+            href = "/new-post";
+        }
+        req.setAttribute("href", href);
 
         PostDao postDao = new PostDao();
         List<PostDto> posts = postDao.getAllDto();
         req.setAttribute("posts", posts);
 
+        req.getRequestDispatcher("home.jsp").forward(req, resp);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.getRequestDispatcher("home.jsp").forward(req, resp);
     }
 }

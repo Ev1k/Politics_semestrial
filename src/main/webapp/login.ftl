@@ -1,6 +1,8 @@
 <#--<%@ page contentType="text/html;charset=UTF-8" language="java" %>-->
 <html lang="en">
+<#--<#include "main.ftl">-->
 <#include "base.ftl">
+
 
 <#macro title>Login</#macro>
 
@@ -45,6 +47,9 @@
 <#--            </button>-->
             </center>
         </form>
+        <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/home">Home</a>
+        </li>
     </div>
 </div>
 </body>

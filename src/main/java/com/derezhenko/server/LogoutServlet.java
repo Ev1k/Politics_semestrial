@@ -12,9 +12,12 @@ import java.io.IOException;
 public class LogoutServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
         HttpSession session = req.getSession();
-        session.removeAttribute("username");
-        session.invalidate();
-        resp.sendRedirect("login.ftl");
+//        session.removeAttribute("username");
+//        req.removeAttribute("username");
+//        session = null;
+        req.getRequestDispatcher("login.ftl").forward(req, resp);
+////        resp.sendRedirect("login.ftl");
     }
 }

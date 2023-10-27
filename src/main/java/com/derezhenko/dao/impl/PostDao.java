@@ -3,7 +3,6 @@ package com.derezhenko.dao.impl;
 import com.derezhenko.dao.Dao;
 import com.derezhenko.model.Post;
 import com.derezhenko.model.PostDto;
-import com.derezhenko.model.User;
 import com.derezhenko.util.DatabaseConnectionUtil;
 
 import java.sql.*;

@@ -15,25 +15,26 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="main.jsp">Главная</a>
+                            <a class="nav-link active" aria-current="page" href="main.jsp">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="logout">Выход</a>
+                            <a class="nav-link" href="/login">Login</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="account.jsp">Личный кабинет</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Pricing</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-                        </li>
+<#--                        <li class="nav-item">-->
+<#--                            <a class="nav-link" href="account.jsp">Acco</a>-->
+<#--                        </li>-->
+<#--                        <li class="nav-item">-->
+<#--                            <a class="nav-link" href="#">Pricing</a>-->
+<#--                        </li>-->
+<#--                        <li class="nav-item">-->
+<#--                            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>-->
+<#--                        </li>-->
+<#--                    </ul>-->
+<#--                    <form class="d-flex">-->
+<#--                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">-->
+<#--                        <button class="btn btn-outline-success" type="submit">Search</button>-->
+<#--                    </form>-->
                     </ul>
-                    <form class="d-flex">
-                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                        <button class="btn btn-outline-success" type="submit">Search</button>
-                    </form>
                 </div>
             </div>
         </nav>

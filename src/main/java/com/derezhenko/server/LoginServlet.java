@@ -33,10 +33,10 @@ public class LoginServlet extends HttpServlet {
         String username = req.getParameter("username");
         String password = req.getParameter("password");
 
-        User user = getUserFromDatabase(username); // получение объекта User из базы данных по логину
-        if (user != null) {
+        if (getUserFromDatabase(username) != null) {
+            User user = getUserFromDatabase(username); // получение объекта User из базы данных по логину
             int userId = user.getId(); // получение айди пользователя из объекта User
-            req.setAttribute("userID", userId);
+            req.setAttribute("userId", userId);
             if (user.getPassword().equals(password) && username.equals(user.getName())) {
                 // session
                 session = req.getSession();
@@ -48,24 +48,6 @@ public class LoginServlet extends HttpServlet {
                     session.setAttribute("image-user", user.getPhoto());
                 }
 
-                System.out.println(user.getPhoto());
-//                session.setMaxInactiveInterval(60 * 60);
-
-
-//                String sql = "UPDATE users SET photo = ? WHERE id = ?";
-//                try{
-//                    PreparedStatement statement = connection.prepareStatement(sql);
-//                    statement.setString(1, "26806.jpg");
-//                    statement.setInt(2, userId);
-//
-//                    int rowsAffected = statement.executeUpdate();
-//
-//                    statement.close();
-//                } catch (SQLException e) {
-//                    throw new RuntimeException(e);
-//                }
-
-                // cookie
                 Cookie cookie = new Cookie("username", username);
                 cookie.setMaxAge(24 * 60 * 60);
                 resp.addCookie(cookie);
@@ -75,7 +57,8 @@ public class LoginServlet extends HttpServlet {
                 resp.sendRedirect("/login");
             }
         } else {
-//            resp.sendRedirect("/login");
+//            req.getRequestDispatcher("home.jsp").forward(req, resp);
+            resp.sendRedirect("/home");
         }
     }
 

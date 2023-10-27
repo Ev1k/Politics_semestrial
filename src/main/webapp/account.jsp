@@ -1,5 +1,7 @@
 <%@ page import="java.util.Objects" %>
+<%@ page import="com.derezhenko.model.User" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@include file="main.jsp"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,20 +12,49 @@
 <body>
 <div class="container">
   <br>
-  <br>
-  <br>
   <center><h1>Личный кабинет</h1></center>
-  <br>
   <br>
   <br>
 </div>
 <div class="row">
   <div class="col-3"></div>
   <div class="col-3">
-<%--    <img alt="" class="img-thumbnail" src="https://i0.wp.com/vzv.su/polezno-znat/wp-content/uploads/2015/09/borba-s-konkurentami-voyna.jpg">--%>
-<%--    <img alt="" class="img-thumbnail" src="C:/Users/Эвелина/AppData/Local/JetBrains/IntelliJIdea2022.2/tomcat/5077d436-afab-4425-8a77-007cfa00fd72/work/Catalina/localhost/ROOT<%=imgName%>">--%>
     <img alt="" class="img-thumbnail" src="${pageContext.request.contextPath}/images/<%=session.getValue("image-user").toString()%>">
+<%--    <img alt="" class="img-thumbnail" src="/images/${filename}">--%>
   </div>
+<%--  <%User user = null;%>--%>
+<%--  <%if ((user = (User) request.getAttribute("user")) != null){%>--%>
+  <div class="col-3">
+    <form action="updateUser.jsp" method="post" class="form-horizontal">
+      <div class="form-group">
+        <%--@declare id="name"--%><label for="name" class="col-sm-2 control-label">Имя:</label>
+        <div class="col-sm-10">
+          <input type="text" name="name" class="form-control" value="${user.name}">
+        </div>
+      </div>
+      <div class="form-group">
+        <%--@declare id="email"--%><label for="email" class="col-sm-2 control-label">Email:</label>
+        <div class="col-sm-10">
+          <input type="email" name="email" class="form-control" value="${user.email}">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+          <button type="submit" class="btn btn-primary">Сохранить</button>
+        </div>
+      </div>
+    </form>
+<%--    <h4><%=user.getName()%></h4>--%>
+<%--    <label class="form-label">Username</label>--%>
+<%--    <input type="text" class="form-control" name="username" value="${user.getName()}" required>--%>
+<%--    <label class="form-label">Email</label>--%>
+<%--    <input type="text" class="form-control" name="email" value="<%=user.getEmail()%>" required>--%>
+<%--    <label class="form-label">Contact no</label>--%>
+<%--    <input type="text" class="form-control" name="phone_number" value="<%=user.getPhone_number()%>" required>--%>
+<%--    <label class="form-label">Password</label>--%>
+<%--    <input type="password" class="form-control" name="password" value="<%=user.getPassword()%>" required>--%>
+  </div>
+<%--  <%}%>--%>
   <div class="col-15"></div>
   <div class="col-3"></div>
   <div class="col-3">

@@ -17,13 +17,13 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="main.jsp">Главная</a>
+                        <a class="nav-link active" aria-current="page" href="/home">Главная</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="logout">Выход</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="account.jsp">Личный кабинет</a>
+                        <a class="nav-link" href="/account">Личный кабинет</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Pricing</a>
@@ -36,10 +36,9 @@
         </div>
     </nav>
     <br>
-    <center><h1>Добро пожаловать!</h1><h2>гыыы</h2></center>
     <%
         if(session.getAttribute("username") == null) {
-            response.sendRedirect("login.jsp");
+            response.sendRedirect("/login");
         }
     %>
 </div>

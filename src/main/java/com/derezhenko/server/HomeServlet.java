@@ -24,7 +24,7 @@ public class HomeServlet extends HttpServlet {
             href = "/new-post";
         }
         req.setAttribute("href", href);
-
+//        req.setAttribute("user", user);
         PostDao postDao = new PostDao();
         List<PostDto> posts = postDao.getAllDto();
         req.setAttribute("posts", posts);

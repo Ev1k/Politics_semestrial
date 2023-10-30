@@ -32,10 +32,19 @@
                         }
                     %>
                     <li class="nav-item">
-                        <a class="nav-link" href="<%=href1%>"><%=value1%></a>
+                        <a class="nav-link" href="<%=href2%>">Account</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="<%=href2%>">Account</a>
+                        <a class="nav-link" href="/notifications">Notifications</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/favorite">Favorite</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/rules">Rules</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="<%=href1%>"><%=value1%></a>
                     </li>
 
 <%--                    <li class="nav-item">--%>

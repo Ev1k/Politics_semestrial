@@ -40,8 +40,12 @@ public class LoginServlet extends HttpServlet {
             if (user.getPassword().equals(password) && username.equals(user.getName())) {
                 // session
                 session = req.getSession();
+                req.setAttribute("username", user.getName());
                 session.setAttribute("userId", String.valueOf(userId));
                 session.setAttribute("username", username);
+                session.setAttribute("email", user.getEmail());
+                session.setAttribute("phone", user.getPhone_number());
+                session.setAttribute("password", password);
                 if(user.getPhoto() == null){
                     session.setAttribute("image-user", "26806.jpg");
                 } else {

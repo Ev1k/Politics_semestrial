@@ -66,8 +66,8 @@ public class UserDaoImpl implements Dao<User> {
     public void save(User user) {
         System.out.println("start saving...");
         String sql = "insert into users (name, password, email, phone_number) values (?, ?, ?, ?);";
-
-        try (Connection connection = DatabaseConnectionUtil.getConnection()) {
+        Connection connection = DatabaseConnectionUtil.getConnection();
+        try {
             System.out.println("start data updating");
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
                 preparedStatement.setString(1, user.getName());

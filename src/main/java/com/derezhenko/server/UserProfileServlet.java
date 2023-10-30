@@ -38,7 +38,7 @@ public class UserProfileServlet extends HttpServlet {
                 statement.setInt(1, userId);
                 ResultSet resultSet = statement.executeQuery(); // выполнение запроса и получение результата
                 List<PostDto> posts = new ArrayList<>();
-                if (resultSet.next()) {
+                while (resultSet.next()) {
                     String title = resultSet.getString("title");
                     String text = resultSet.getString("text");
                     String date = resultSet.getString("date");

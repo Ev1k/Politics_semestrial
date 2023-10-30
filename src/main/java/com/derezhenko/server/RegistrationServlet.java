@@ -15,11 +15,6 @@ import java.sql.*;
 
 @WebServlet(urlPatterns = "/registration")
 public class RegistrationServlet extends HttpServlet {
-//    public static final String DRIVER = "org.postgresql.Driver";
-//    public static final String URL = "jdbc:postgresql://localhost:5432/politics";
-//    public static final String USER = "postgres";
-//    public static final String PASSWORD = "rfrfirf12";
-
     private final Connection connection = DatabaseConnectionUtil.getConnection();
 
     @Override
@@ -41,18 +36,6 @@ public class RegistrationServlet extends HttpServlet {
         UserDaoImpl userDao = new UserDaoImpl();
         userDao.save(user);
 
-        int userId = user.getId();
-        String sql = "UPDATE users SET photo = ? WHERE id = ?";
-        try{
-            PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setString(1, "26806.jpg");
-            statement.setInt(2, userId);
-
-            int rowsAffected = statement.executeUpdate();
-
-            statement.close();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        resp.sendRedirect("/login");
     }
 }

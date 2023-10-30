@@ -20,53 +20,56 @@
   <div class="col-3"></div>
   <div class="col-3">
     <img alt="" class="img-thumbnail" src="${pageContext.request.contextPath}/images/<%=session.getValue("image-user").toString()%>">
-<%--    <img alt="" class="img-thumbnail" src="/images/${filename}">--%>
+    <form enctype="multipart/form-data" method="post" action="/account">
+      <p><input class="form-control" type="file" id="formFile" name="photo" multiple accept="image/*,image/jpeg">
+        <br>
+      <center><input type="submit" class="btn-outline-success rounded" value="submit"></center>
+      </p>
+    </form>
   </div>
-<%--  <%User user = null;%>--%>
-<%--  <%if ((user = (User) request.getAttribute("user")) != null){%>--%>
-  <% User user = (User) request.getAttribute("user");%>
   <div class="col-3">
-    <form action="updateUser.jsp" method="post" class="form-horizontal">
+    <form action="/update" method="post" class="form-horizontal">
       <div class="form-group">
         <%--@declare id="name"--%><label for="name" class="col-sm-2 control-label">Name:</label>
         <div class="col-sm-10">
-          <input type="text" name="name" class="form-control" value="<%=user.getName()%>">
+          <input type="text" name="name" class="form-control" value="<%=session.getAttribute("username")%>">
         </div>
       </div>
+      <br>
       <div class="form-group">
         <%--@declare id="email"--%><label for="email" class="col-sm-2 control-label">Email:</label>
         <div class="col-sm-10">
-          <input type="email" name="email" class="form-control" value="<%=user.getEmail()%>">
+          <input type="email" name="email" class="form-control" value="<%=session.getAttribute("email")%>">
         </div>
       </div>
+      <br>
+      <div class="form-group">
+        <%--@declare id="phone"--%><label for="phone" class="col-sm-10 control-label">Phone number:</label>
+        <div class="col-sm-10">
+          <input type="number" name="phone" class="form-control" value="<%=session.getAttribute("phone")%>">
+        </div>
+      </div>
+      <br>
+      <div class="form-group">
+        <%--@declare id="password"--%><label for="password" class="col-sm-2 control-label">Password:</label>
+        <div class="col-sm-10">
+          <input type="password" name="password" class="form-control" value="<%=session.getAttribute("password")%>">
+        </div>
+      </div>
+      <br>
+      <div class="form-group">
+        <%--@declare id="password2"--%><label for="password2" class="col-sm-10 control-label">Repeat password:</label>
+        <div class="col-sm-10">
+          <input type="password" name="password2" class="form-control" value="">
+        </div>
+      </div>
+      <br>
       <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
           <button type="submit" class="btn btn-primary">update</button>
         </div>
       </div>
     </form>
-<%--    <h4><%=user.getName()%></h4>--%>
-<%--    <label class="form-label">Username</label>--%>
-<%--    <input type="text" class="form-control" name="username" value="${user.getName()}" required>--%>
-<%--    <label class="form-label">Email</label>--%>
-<%--    <input type="text" class="form-control" name="email" value="<%=user.getEmail()%>" required>--%>
-<%--    <label class="form-label">Contact no</label>--%>
-<%--    <input type="text" class="form-control" name="phone_number" value="<%=user.getPhone_number()%>" required>--%>
-<%--    <label class="form-label">Password</label>--%>
-<%--    <input type="password" class="form-control" name="password" value="<%=user.getPassword()%>" required>--%>
-  </div>
-<%--  <%}%>--%>
-  <div class="col-15"></div>
-  <div class="col-3"></div>
-  <div class="col-3">
-    <div class="mb-3">
-      <form enctype="multipart/form-data" method="post" action="/account">
-        <p><input class="form-control" type="file" id="formFile" name="photo" multiple accept="image/*,image/jpeg">
-        <br>
-        <center><input type="submit" class="btn-outline-success rounded" value="submit"></center>
-      </p>
-      </form>
-    </div>
   </div>
 </div>
 </body>

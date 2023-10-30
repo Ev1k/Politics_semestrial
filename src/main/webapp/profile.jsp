@@ -19,25 +19,27 @@
             <div class="col-sm">
             </div>
             <div class="container">
-
-
             <div class="row">
             <% for (PostDto post : (List<PostDto>) request.getAttribute("posts")) { %>
-            <div class="col-md-6">
-                <div class="card mb-3">
-                    <div class="card-body">
-                        <img src="${pageContext.request.contextPath}/images/<%=post.getPhoto()%>" class="rounded-circle me-3" height="40px" width="40px">
-                        <a class="text-primary" href="/user?id=<%=post.getAuthorId()%>"><%=post.getAuthorName()%></a>
-                        <h2 class="card-title"><%= post.getTitle() %></h2>
-                        <p class="card-text"><%= post.getText() %></p>
-                        <p class="card-text"><%= post.getDate() %></p>
-                        <%--                        <form action="delete-post" method="post">--%>
-                        <%--                            <input type="hidden" name="id" value="<%= post.getId() %>">--%>
-                        <%--                            <button type="submit" class="btn btn-danger">Удалить</button>--%>
-                        <%--                        </form>--%>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-4"></div>
+                        <div class="col-6">
+                            <div class="shadow card-body rounded">
+                                <img src="${pageContext.request.contextPath}/images/<%=post.getPhoto()%>" class="rounded-circle me-3" height="40px" width="40px">
+                                <a class="text-primary" href="/user?id=<%=post.getAuthorId()%>"><%=post.getAuthorName()%></a>
+                                <h2 class="card-title"><%= post.getTitle() %></h2>
+                                <p class="card-text"><%= post.getText() %></p>
+                                <p class="card-text"><%= post.getDate() %></p>
+                                <%--                        <form action="delete-post" method="post">--%>
+                                <%--                            <input type="hidden" name="id" value="<%= post.getId() %>">--%>
+                                <%--                            <button type="submit" class="btn btn-danger">Удалить</button>--%>
+                                <%--                        </form>--%>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
+
             <% } %>
             </div>
             </div>

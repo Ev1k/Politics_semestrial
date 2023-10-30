@@ -3,6 +3,7 @@ package com.derezhenko.dao.impl;
 import com.derezhenko.dao.Dao;
 import com.derezhenko.model.Post;
 import com.derezhenko.model.PostDto;
+import com.derezhenko.model.User;
 import com.derezhenko.util.DatabaseConnectionUtil;
 
 import java.sql.*;
@@ -42,9 +43,8 @@ public class PostDao implements Dao<Post> {
     }
 
     public List<PostDto> getAllDto() {
-        try {
-            Statement statement = connection.createStatement();
-            String sql = "SELECT p.id, title, text, date, u.name, u.photo, author_id FROM posts p  inner join users u on u.id = p.author_id";
+        String sql = "SELECT p.id, title, text, date, u.name, u.photo, author_id FROM posts p  inner join users u on u.id = p.author_id";
+        try (Statement statement = connection.createStatement()){
             ResultSet resultSet = statement.executeQuery(sql);
             List<PostDto> posts = new ArrayList<>();
             if (resultSet != null) {
@@ -81,17 +81,17 @@ public class PostDao implements Dao<Post> {
                 System.out.println("datas updating end");
 
                 int affectedRows = preparedStatement.executeUpdate();
-
-                if (affectedRows != 1) {
-                    throw new SQLException("Cannot insert course");
-                }
-                try (ResultSet generatedIds = preparedStatement.getGeneratedKeys()){
-                    if (generatedIds.next()) {
-                        post.setId(generatedIds.getInt("id"));
-                    } else {
-                        throw new SQLException("Cannot retrieve id");
-                    }
-                }
+//
+//                if (affectedRows != 1) {
+//                    throw new SQLException("Cannot insert course");
+//                }
+//                try (ResultSet generatedIds = preparedStatement.getGeneratedKeys()){
+//                    if (generatedIds.next()) {
+//                        post.setId(generatedIds.getInt("id"));
+//                    } else {
+//                        throw new SQLException("Cannot retrieve id");
+//                    }
+//                }
             }
         } catch (SQLException e) {
             throw new IllegalStateException(e);

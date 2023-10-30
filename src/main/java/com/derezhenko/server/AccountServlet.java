@@ -39,10 +39,6 @@ public class AccountServlet extends HttpServlet {
         System.out.println("after part");
 
         String filename = Paths.get(part.getSubmittedFileName()).toString();
-//        System.out.println(filename);
-////        File file = new File(/*FILE_PATH_PREFIX  + File.separator +*/ filename);
-//        File file = new File("images/" + filename);
-
         String uploadPath = getServletContext().getRealPath("") + File.separator + "images";
         File uploadDir = new File(uploadPath);
         if (!uploadDir.exists()) {
@@ -50,16 +46,10 @@ public class AccountServlet extends HttpServlet {
         }
         File file = new File(uploadDir, filename);
         try (InputStream input = part.getInputStream()) {
-            if(!Files.exists(file.toPath())) {
+            if (!Files.exists(file.toPath())) {
                 Files.copy(input, file.toPath());
             }
         }
-
-//        part.write(filename);
-//        resp.setContentType(filename);
-
-//        req.setAttribute("image", filename);
-//        resp.sendRedirect(getServletContext().getContextPath() + "/account.jsp");
 
         HttpSession session = LoginServlet.getSession();
         session.setAttribute("image-user", filename);
@@ -68,11 +58,12 @@ public class AccountServlet extends HttpServlet {
 
         // апдейт фото в бд
         int userId = Integer.parseInt((String) session.getAttribute("userId"));
+        req.setAttribute("userId", userId);
         UserDaoImpl userDao = new UserDaoImpl();
         User user = userDao.get(userId);
         req.setAttribute("user", user);
         String sql = "UPDATE users SET photo = ? WHERE id = ?";
-        try{
+        try {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, filename);
             statement.setInt(2, userId);
@@ -83,8 +74,6 @@ public class AccountServlet extends HttpServlet {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
-        RequestDispatcher requestDispatcher = req.getRequestDispatcher("account.jsp");
-        requestDispatcher.forward(req, resp);
+        resp.sendRedirect("/account");
     }
 }

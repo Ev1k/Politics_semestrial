@@ -3,6 +3,7 @@ package com.derezhenko.dao.impl;
 import com.derezhenko.dao.Dao;
 import com.derezhenko.model.Post;
 import com.derezhenko.model.PostDto;
+import com.derezhenko.model.PostLikes;
 import com.derezhenko.model.User;
 import com.derezhenko.util.DatabaseConnectionUtil;
 
@@ -95,6 +96,39 @@ public class PostDao implements Dao<Post> {
             }
         } catch (SQLException e) {
             throw new IllegalStateException(e);
+        }
+    }
+
+    public List<PostLikes> getListPostLikes(int userId) {
+        String sql = "SELECT p.id, title, text, date, author_id, u.photo, u.name, (SELECT count(*) from comments c WHERE p.id = c.id_post) as count_comment,\n" +
+                "       (SELECT count(*) FROM  likes l where p.id = l.id_post) as count_like,\n" +
+                "       (SELECT 1\n" +
+                "        from likes l\n" +
+                "        WHERE p.id = l.id_post and l.id_user= ? ) as has_like\n" +
+                " from posts p inner join users u on u.id = p.author_id";
+        try (PreparedStatement statement = connection.prepareStatement(sql)){
+            statement.setInt(1, userId);
+            ResultSet resultSet = statement.executeQuery();
+            List<PostLikes> posts = new ArrayList<>();
+            if (resultSet != null) {
+                while (resultSet.next()) {
+                    posts.add(
+                            new PostLikes(resultSet.getInt("id"),
+                                    resultSet.getString("title"),
+                                    resultSet.getString("text"),
+                                    resultSet.getString("date"),
+                                    resultSet.getInt("author_id"),
+                                    resultSet.getString("photo"),
+                                    resultSet.getString("name"),
+                                    resultSet.getInt("count_comment"),
+                                    resultSet.getInt("count_like"),
+                                    resultSet.getInt("has_like"))
+                    );
+                }
+            }
+            return posts;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 }

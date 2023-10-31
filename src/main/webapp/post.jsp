@@ -46,6 +46,7 @@
             <%}%>
 
 <%--          add  comment--%>
+            <br>
             <div class="row">
                 <div class="col-2"></div>
                 <div class="col-8">
@@ -58,6 +59,9 @@
                     </form>
                 </div>
             </div>
+            <br>
+            <br>
+            <br>
         </div>
 
         <%  %>

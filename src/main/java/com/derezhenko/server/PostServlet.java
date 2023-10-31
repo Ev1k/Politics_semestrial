@@ -12,10 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -49,7 +47,32 @@ public class PostServlet extends HttpServlet {
 
         //get comments
         CommentDao commentDao = new CommentDao();
-        List<CommentDto> comments = commentDao.getAll();
+        req.setAttribute("postId", postId);
+//        Connection connection = DatabaseConnectionUtil.getConnection();
+        List<CommentDto> comments = new ArrayList<>();
+        String sql1 = "SELECT c.id, id_post, id_author, text, date, u.name, u.photo FROM comments c inner join users u on u.id = c.id_author WHERE id_post=?";
+        try (PreparedStatement statement1 = connection.prepareStatement(sql1)){
+            statement1.setInt(1, postId);
+            ResultSet resultSet = statement1.executeQuery();
+            if (resultSet != null) {
+                while (resultSet.next()) {
+                    comments.add(
+                            new CommentDto(
+                                resultSet.getInt("id"),
+                                resultSet.getInt("id_post"),
+                                resultSet.getInt("id_author"),
+                                resultSet.getString("text"),
+                                resultSet.getString("name"),
+                                resultSet.getString("photo"),
+                                resultSet.getString("date")
+                            )
+                    );
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
         req.setAttribute("comments", comments);
 
         req.getRequestDispatcher("post.jsp").forward(req, resp);

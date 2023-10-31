@@ -4,15 +4,15 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
                       http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
-    <!--        <servlet>-->
-    <!--            <servlet-name>MainServ</servlet-name>-->
-    <!--            <servlet-class>com.derezhenko.server.HomeServlet</servlet-class>-->
-    <!--        </servlet>-->
+    <!--    <servlet>-->
+    <!--        <servlet-name>HelloServ</servlet-name>-->
+    <!--        <servlet-class>com.derezhenko.net.server.HelloServlet</servlet-class>-->
+    <!--    </servlet>-->
 
-    <!--        <servlet-mapping>-->
-    <!--            <servlet-name>MainServ</servlet-name>-->
-    <!--            <url-pattern>/home</url-pattern>-->
-    <!--        </servlet-mapping>-->
+    <!--    <servlet-mapping>-->
+    <!--        <servlet-name>HelloServ</servlet-name>-->
+    <!--        <url-pattern>/hello</url-pattern>-->
+    <!--    </servlet-mapping>-->
 
     <servlet>
         <servlet-name>freemarker</servlet-name>

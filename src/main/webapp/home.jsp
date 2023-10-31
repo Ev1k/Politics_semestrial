@@ -1,5 +1,10 @@
 <%@ page import="java.util.List" %>
 <%@ page import="com.derezhenko.model.PostDto" %>
+<%@ page import="java.sql.Connection" %>
+<%@ page import="com.derezhenko.util.DatabaseConnectionUtil" %>
+<%@ page import="java.sql.PreparedStatement" %>
+<%@ page import="java.sql.ResultSet" %>
+<%@ page import="com.derezhenko.model.PostLikes" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@include file="main.jsp"%>
 
@@ -92,21 +97,32 @@
         </div>
     <br>
         <div class="row">
-            <% for (PostDto post : (List<PostDto>) request.getAttribute("posts")) { %>
+            <% for (PostLikes post : (List<PostLikes>) request.getAttribute("posts")) {
+                Connection connection = DatabaseConnectionUtil.getConnection();
+                String sql = "SELECT * from comments join posts p on p.id = comments.id_post WHERE p.id=?";
+                PreparedStatement statement = connection.prepareStatement(sql);
+                statement.setInt(1, post.getIdPost());
+                ResultSet resultSet = statement.executeQuery();
+                int count = 0;
+                while(resultSet.next()) {
+                    count++;
+                }
+
+            %>
             <div class="col-md-6">
                 <div class="shadow card mb-3">
                     <div class="card-body">
                             <img src="${pageContext.request.contextPath}/images/<%=post.getPhoto()%>" class="rounded-circle me-3" height="40px" width="40px">
-                            <a class="text-primary" href="/user?id=<%=post.getAuthorId()%>"><%=post.getAuthorName()%></a>
+                            <a class="text-primary" href="/user?id=<%=post.getIdAuthor()%>"><%=post.getName()%></a>
                         <h2 class="card-title"><%= post.getTitle() %></h2>
                         <p class="card-text"><%= post.getText() %></p>
                         <div class="container">
                             <span class="text-black-50"><%= post.getDate() %></span>
-                            <a class="material-symbols-outlined nav-link" href="/post?id=<%=post.getId()%>">chat_bubble
+                            <a class="material-symbols-outlined nav-link" href="/post?id=<%=post.getIdPost()%>">chat_bubble
                             </a>
-                            <span class="comment-count">0</span>
-                            <span class="material-symbols-rounded">favorite</span>
-                            <span class="like-count">0</span>
+                            <span class="comment-count"><%=post.getCountComment()%></span>
+                            <span class="material-symbols-rounded" id="heart" onclick="like(<%=post.getIdPost()%>)">favorite</span>
+                            <span class="like-count" id="like-count"><%=post.getCountLikes()%></span>
                         </div>
 
 <%--                        <form action="delete-post" method="post">--%>
@@ -131,11 +147,44 @@
             if (this.classList.contains('red')) {
                 count--;
                 this.classList.remove('red');
+
             } else {
                 count++;
                 this.classList.add('red');
             }
             countSpan.textContent = count;
+        });
+    }
+</script>
+<script>
+    function like(id) {
+        $.ajax({
+            url: "/like",
+            type: "GET",
+            data: {"id_post": id},
+            success: function (response) {
+                document.getElementById("heart").classList.add('red');
+                document.getElementById("heart").onclick = dislike(id)
+                let count = parseInt(document.getElementById("like-count").textContent);
+                count++;
+                countSpan.textContent = count;
+                alert("DONE");
+            }
+        });
+    }
+    function dislike(id) {
+        $.ajax({
+            url: "/like",
+            type: "POST",
+            data: {"id_post" : id},
+            success: function (response) {
+                document.getElementById("heart").classList.remove('red');
+                document.getElementById("heart").onclick = dislike(id)
+                let count = parseInt(document.getElementById("like-count").textContent);
+                count--;
+                countSpan.textContent = count;
+                alert("DONE");
+            }
         });
     }
 </script>

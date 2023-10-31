@@ -4,7 +4,9 @@ import com.derezhenko.dao.Dao;
 import com.derezhenko.model.Comment;
 import com.derezhenko.model.CommentDto;
 import com.derezhenko.model.User;
+import com.derezhenko.server.PostServlet;
 import com.derezhenko.util.DatabaseConnectionUtil;
+import com.sun.net.httpserver.Request;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -19,30 +21,33 @@ public class CommentDao implements Dao<CommentDto> {
 
     @Override
     public List<CommentDto> getAll() {
-        Connection connection = DatabaseConnectionUtil.getConnection();
-        List<CommentDto> comments = new ArrayList<>();
-        try (Statement statement = connection.createStatement()){
-            String sql = "SELECT c.id, id_post, id_author, text, date, u.name, u.photo FROM comments c inner join users u on u.id = c.id_author";
-            ResultSet resultSet = statement.executeQuery(sql);
-            if (resultSet != null) {
-                while (resultSet.next()) {
-                    comments.add(
-                        new CommentDto(
-                            resultSet.getInt("id"),
-                            resultSet.getInt("id_post"),
-                            resultSet.getInt("id_author"),
-                            resultSet.getString("text"),
-                            resultSet.getString("name"),
-                            resultSet.getString("photo"),
-                            resultSet.getString("date")
-                        )
-                    );
-                }
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return comments;
+        return null;
+//        Connection connection = DatabaseConnectionUtil.getConnection();
+//        int postId =
+//        List<CommentDto> comments = new ArrayList<>();
+//        String sql = "SELECT c.id, id_post, id_author, text, date, u.name, u.photo FROM comments c inner join users u on u.id = c.id_author WHERE id_post=?";
+//        try (PreparedStatement statement = connection.prepareStatement(sql)){
+//            statement.setInt(1, P);
+//            ResultSet resultSet = statement.executeQuery(sql);
+//            if (resultSet != null) {
+//                while (resultSet.next()) {
+//                    comments.add(
+//                        new CommentDto(
+//                            resultSet.getInt("id"),
+//                            resultSet.getInt("id_post"),
+//                            resultSet.getInt("id_author"),
+//                            resultSet.getString("text"),
+//                            resultSet.getString("name"),
+//                            resultSet.getString("photo"),
+//                            resultSet.getString("date")
+//                        )
+//                    );
+//                }
+//            }
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }
+//        return comments;
     }
 
     @Override

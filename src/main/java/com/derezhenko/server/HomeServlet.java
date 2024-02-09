@@ -1,8 +1,6 @@
 package com.derezhenko.server;
 
 import com.derezhenko.dao.impl.PostDao;
-import com.derezhenko.model.Post;
-import com.derezhenko.model.PostDto;
 import com.derezhenko.model.PostLikes;
 
 import javax.servlet.ServletException;
@@ -16,6 +14,13 @@ import java.util.List;
 
 @WebServlet(urlPatterns = "/home")
 public class HomeServlet extends HttpServlet {
+
+     private final PostDao postDao;
+
+    public HomeServlet() {
+        this.postDao = PostDao.getInstance();
+    }
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String href = "/home";
@@ -27,7 +32,6 @@ public class HomeServlet extends HttpServlet {
         }
         req.setAttribute("href", href);
 //        req.setAttribute("user", user);
-        PostDao postDao = new PostDao();
         List<PostLikes> posts = postDao.getListPostLikes(Integer.parseInt((String) session.getAttribute("userId")));
         req.setAttribute("posts", posts);
 

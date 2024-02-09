@@ -4,7 +4,6 @@ import com.derezhenko.dao.impl.UserDaoImpl;
 import com.derezhenko.model.User;
 import com.derezhenko.util.DatabaseConnectionUtil;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -26,6 +25,12 @@ import java.sql.SQLException;
 public class AccountServlet extends HttpServlet {
     public static final String FILE_PATH_PREFIX = "/tmp";
     public static final int DIRECTIONS_COUNT = 100;
+
+    private final UserDaoImpl userDao;
+
+    public AccountServlet(UserDaoImpl userDao) {
+        this.userDao = UserDaoImpl.getInstance();
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -59,7 +64,7 @@ public class AccountServlet extends HttpServlet {
         // апдейт фото в бд
         int userId = Integer.parseInt((String) session.getAttribute("userId"));
         req.setAttribute("userId", userId);
-        UserDaoImpl userDao = new UserDaoImpl();
+
         User user = userDao.get(userId);
         req.setAttribute("user", user);
         String sql = "UPDATE users SET photo = ? WHERE id = ?";

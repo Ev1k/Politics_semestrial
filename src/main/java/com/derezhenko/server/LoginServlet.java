@@ -1,6 +1,7 @@
 package com.derezhenko.server;
 
 import com.derezhenko.model.User;
+import com.derezhenko.server.seevice.UserService;
 import com.derezhenko.util.DatabaseConnectionUtil;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -23,6 +24,12 @@ public class LoginServlet extends HttpServlet {
     private final Connection connection = DatabaseConnectionUtil.getConnection();
     public static HttpSession session = null;
 
+    private final UserService userService;
+
+    public LoginServlet() {
+        userService = new UserService();
+    }
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.getRequestDispatcher("login.ftl").forward(req, resp);
@@ -33,8 +40,8 @@ public class LoginServlet extends HttpServlet {
         String username = req.getParameter("username");
         String password = req.getParameter("password");
 
-        if (getUserFromDatabase(username) != null) {
-            User user = getUserFromDatabase(username); // получение объекта User из базы данных по логину
+        if (userService.getUserFromDatabase(username) != null) {
+            User user = userService.getUserFromDatabase(username); // получение объекта User из базы данных по логину
             int userId = user.getId(); // получение айди пользователя из объекта User
             req.setAttribute("userId", userId);
             if (user.getPassword().equals(password) && username.equals(user.getName())) {
@@ -67,27 +74,7 @@ public class LoginServlet extends HttpServlet {
     }
 
 
-    private User getUserFromDatabase(String name) {
-        User user = null;
-        try {
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM users WHERE name = ?");
-            statement.setString(1, name); // установка значения параметра запроса
-            ResultSet resultSet = statement.executeQuery(); // выполнение запроса и получение результата
-            if (resultSet.next()) {
-                int id = resultSet.getInt("id");
-                String password = resultSet.getString("password");
-                String email = resultSet.getString("email");
-                String phone_number = resultSet.getString("phone_number");
-                user = new User(id, name, email, phone_number, password); // создание объекта User на основе полученных данных
-            }
-            resultSet.close();
-            statement.close();
-//            connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return user;
-    }
+
     public static HttpSession getSession(){
         return session;
     }

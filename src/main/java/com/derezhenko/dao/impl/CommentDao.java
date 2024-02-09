@@ -14,6 +14,24 @@ import java.util.List;
 
 public class CommentDao implements Dao<CommentDto> {
 
+    private volatile static CommentDao INSTANCE;
+    private static Object lock = new Object();
+
+    public static CommentDao getInstance() {
+        if (INSTANCE != null) {
+            return INSTANCE;
+        } else {
+            synchronized (lock) {
+                INSTANCE = new CommentDao();
+                return INSTANCE;
+            }
+        }
+    }
+
+    private final Connection connection;
+    private CommentDao(){
+        this.connection = DatabaseConnectionUtil.getConnection();
+    }
     @Override
     public CommentDto get(int id) {
         return null;
@@ -22,7 +40,6 @@ public class CommentDao implements Dao<CommentDto> {
     @Override
     public List<CommentDto> getAll() {
         return null;
-//        Connection connection = DatabaseConnectionUtil.getConnection();
 //        int postId =
 //        List<CommentDto> comments = new ArrayList<>();
 //        String sql = "SELECT c.id, id_post, id_author, text, date, u.name, u.photo FROM comments c inner join users u on u.id = c.id_author WHERE id_post=?";
@@ -53,7 +70,6 @@ public class CommentDao implements Dao<CommentDto> {
     @Override
     public void save(CommentDto commentDto) {
         String sql = "insert into comments (id_post, id_author, text, date) values (?, ?, ?, ?);";
-        Connection connection = DatabaseConnectionUtil.getConnection();
         try {
             System.out.println("start data updating");
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -64,20 +80,6 @@ public class CommentDao implements Dao<CommentDto> {
                 System.out.println("datas updating end");
 
                 int affectedRows = preparedStatement.executeUpdate();
-//                System.out.println("affected rows" + affectedRows);
-//                if (affectedRows != 1) {
-//                    System.out.println("affect rows != 1");
-//                    throw new SQLException("Cannot insert course");
-//                }
-//                try (ResultSet generatedIds = preparedStatement.getGeneratedKeys()){
-//                    if (generatedIds.next()) {
-//                        int id = generatedIds.getInt("id");
-//                        commentDto.setId(id);
-//                        System.out.println(id);
-//                    } else {
-//                        throw new SQLException("Cannot retrieve id");
-//                    }
-//                }
             }
         } catch (SQLException e) {
             throw new IllegalStateException(e);

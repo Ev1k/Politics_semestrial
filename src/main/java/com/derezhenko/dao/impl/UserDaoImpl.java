@@ -10,7 +10,24 @@ import java.util.List;
 
 public class UserDaoImpl implements Dao<User> {
 
-    private final Connection connection = DatabaseConnectionUtil.getConnection();
+    private volatile static UserDaoImpl INSTANCE;
+    private static Object lock = new Object();
+
+    public static UserDaoImpl getInstance() {
+        if (INSTANCE != null) {
+            return INSTANCE;
+        } else {
+            synchronized (lock) {
+                INSTANCE = new UserDaoImpl();
+                return INSTANCE;
+            }
+        }
+    }
+
+    private final Connection connection;
+    private UserDaoImpl(){
+        this.connection = DatabaseConnectionUtil.getConnection();
+    }
 
     @Override
     public User get(int id) {

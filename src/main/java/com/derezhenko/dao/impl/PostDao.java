@@ -12,7 +12,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PostDao implements Dao<Post> {
-    private final Connection connection = DatabaseConnectionUtil.getConnection();
+
+    private volatile static PostDao INSTANCE;
+    private static Object lock = new Object();
+
+    public static PostDao getInstance() {
+        if (INSTANCE != null) {
+            return INSTANCE;
+        } else {
+            synchronized (lock) {
+                INSTANCE = new PostDao();
+                return INSTANCE;
+            }
+        }
+    }
+    private final Connection connection;
+    private PostDao(){
+        this.connection = DatabaseConnectionUtil.getConnection();
+    }
 
     @Override
     public Post get(int id) {

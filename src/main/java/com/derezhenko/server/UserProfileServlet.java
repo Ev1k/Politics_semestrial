@@ -1,7 +1,6 @@
 package com.derezhenko.server;
 
 import com.derezhenko.dao.impl.UserDaoImpl;
-import com.derezhenko.model.Post;
 import com.derezhenko.model.PostDto;
 import com.derezhenko.model.User;
 import com.derezhenko.util.DatabaseConnectionUtil;
@@ -21,13 +20,20 @@ import java.util.List;
 
 @WebServlet(urlPatterns = "/user")
 public class UserProfileServlet extends HttpServlet {
+
+    private final UserDaoImpl userDao;
+
+    public UserProfileServlet() {
+        this.userDao = UserDaoImpl.getInstance();
+    }
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
             String id  = req.getParameter("id");
             int userId = Integer.parseInt(id);
             System.out.println(userId);
-            UserDaoImpl userDao = new UserDaoImpl();
+
             User user = userDao.get(userId);
             System.out.println(user.getName());
             req.setAttribute("user", user);

@@ -11,7 +11,25 @@ import java.sql.Statement;
 import java.util.List;
 
 public class LikeDao implements Dao<Like> {
-    private final Connection connection = DatabaseConnectionUtil.getConnection();
+
+    private volatile static LikeDao INSTANCE;
+    private static Object lock = new Object();
+
+    public static LikeDao getInstance() {
+        if (INSTANCE != null) {
+            return INSTANCE;
+        } else {
+            synchronized (lock) {
+                INSTANCE = new LikeDao();
+                return INSTANCE;
+            }
+        }
+    }
+
+    private final Connection connection;
+    private LikeDao(){
+        this.connection = DatabaseConnectionUtil.getConnection();
+    }
 
     @Override
     public Like get(int id) {

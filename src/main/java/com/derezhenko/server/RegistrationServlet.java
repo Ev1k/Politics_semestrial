@@ -4,7 +4,6 @@ import com.derezhenko.dao.impl.UserDaoImpl;
 import com.derezhenko.model.User;
 import com.derezhenko.util.DatabaseConnectionUtil;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -16,6 +15,12 @@ import java.sql.*;
 @WebServlet(urlPatterns = "/registration")
 public class RegistrationServlet extends HttpServlet {
     private final Connection connection = DatabaseConnectionUtil.getConnection();
+
+    private final UserDaoImpl userDao;
+
+    public RegistrationServlet() {
+        this.userDao = UserDaoImpl.getInstance();
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -33,7 +38,7 @@ public class RegistrationServlet extends HttpServlet {
         req.setAttribute("upass", upass);
         req.setAttribute("uphone", uphone);
         User user = new User(uname, uemail, uphone, upass);
-        UserDaoImpl userDao = new UserDaoImpl();
+
         userDao.save(user);
 
         resp.sendRedirect("/login");

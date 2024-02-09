@@ -20,6 +20,13 @@ import java.util.List;
 @WebServlet(urlPatterns = "/post")
 public class PostServlet extends HttpServlet {
     int postId = 0;
+
+    private final CommentDao commentDao;
+
+    public PostServlet() {
+        this.commentDao = CommentDao.getInstance();
+    }
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         //get post
@@ -45,8 +52,7 @@ public class PostServlet extends HttpServlet {
         }
         req.setAttribute("post", postDto);
 
-        //get comments
-        CommentDao commentDao = new CommentDao();
+
         req.setAttribute("postId", postId);
 //        Connection connection = DatabaseConnectionUtil.getConnection();
         List<CommentDto> comments = new ArrayList<>();
@@ -87,7 +93,6 @@ public class PostServlet extends HttpServlet {
         Date date = new Date();
         String dateStr = date.toString();
         CommentDto commentDto = new CommentDto(postId, authorId, text, dateStr);
-        CommentDao commentDao = new CommentDao();
         commentDao.save(commentDto);
 //        resp.sendRedirect("/post?id="+postId);
     }

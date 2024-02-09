@@ -1,7 +1,7 @@
 package com.derezhenko.server;
 
 import com.derezhenko.model.User;
-import com.derezhenko.util.DatabaseConnectionUtil;
+import com.derezhenko.server.seevice.UserService;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,12 +11,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 
 @WebServlet(urlPatterns = "/update")
 public class UpdateUserServlet extends HttpServlet {
+
+    private final UserService service;
+
+    public UpdateUserServlet(UserService service) {
+        this.service = service;
+    }
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.getRequestDispatcher("account.jsp").forward(req, resp);
@@ -34,7 +38,7 @@ public class UpdateUserServlet extends HttpServlet {
         String res = "?";
         if(password.equals(password2)){
             User user2 = new User(userId, name, email, phone, password);
-            if(updateInfo(user2)){
+            if(service.updateInfo(user2)){
                 res = "success changing info";
             } else {
                 res = "falling changing info";
@@ -48,24 +52,5 @@ public class UpdateUserServlet extends HttpServlet {
 
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("account.jsp");
         requestDispatcher.forward(req, resp);
-    }
-
-    public static boolean updateInfo(User user){
-        boolean f = false;
-        try {
-            Connection connection = DatabaseConnectionUtil.getConnection();
-            String sql = "UPDATE users set name=?, email=?, phone_number=?, password=? WHERE id=?";
-            PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setString(1, user.getName());
-            statement.setString(2, user.getEmail());
-            statement.setString(3, user.getPhone_number());
-            statement.setString(4, user.getPassword());
-            statement.setInt(5, user.getId());
-            statement.executeUpdate();
-            f=true;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return f;
     }
 }
